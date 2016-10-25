@@ -11,51 +11,9 @@ $("#generate-form").submit(function () {
 });
 
 $("#copy-button").click(function (e) {
-	copyFieldValue(e, "password");
+	copyToClipboard(document.getElementById('password').value);
 });
 
-function copyFieldValue(e, id){
-	var field = document.getElementById(id);
-	field.focus();
-	field.setSelectionRange(0, field.value.length);
-	var copySuccess = copySelectionText(field.value);
-	if (copySuccess)
-		showtooltip(e);
+function copyToClipboard(text) {
+	window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
 }
-
-var tooltip, hideTooltipTimer;
-
-function createTooltip(){
-	tooltip = document.createElement('div');
-	tooltip.style.cssText = 'position:absolute; background:black; color:white; padding:4px;z-index:10000;' + 'border-radius:2px; font-size:12px;box-shadow:3px 3px 3px rgba(0,0,0,.4);' + 'opacity:0;transition:opacity 0.3s';
-	tooltip.innerHTML = 'Copied!';
-	document.body.appendChild(tooltip);
-}
-
-function showtooltip(e){
-	var evt = e || event;
-	clearTimeout(hideTooltipTimer);
-	tooltip.style.left = evt.pageX - 10 + 'px';
-	tooltip.style.top = evt.pageY + 15 + 'px';
-	tooltip.style.opacity = 1;
-	hideTooltipTimer = setTimeout(function(){
-		tooltip.style.opacity = 0;
-	}, 2000);
-}
-
-function copySelectionText(text) {
-	try {
-		copy(text);
-		return true;
-	} catch (e) {}
-
-	var copySuccess;
-	try {
-		copySuccess = document.execCommand("copy");
-	} catch (e) {
-		copySuccess = false;
-	}
-	return copySuccess;
-}
-
-createTooltip();
