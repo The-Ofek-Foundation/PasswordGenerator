@@ -18,9 +18,9 @@ function copyFieldValue(e, id){
 	var field = document.getElementById(id);
 	field.focus();
 	field.setSelectionRange(0, field.value.length);
-	var copySuccess = copySelectionText();
+	var copySuccess = copySelectionText(field.value);
 	if (copySuccess)
-			showtooltip(e);
+		showtooltip(e);
 }
 
 var tooltip, hideTooltipTimer;
@@ -43,11 +43,16 @@ function showtooltip(e){
 	}, 2000);
 }
 
-function copySelectionText(){
+function copySelectionText(text) {
+	try {
+		copy(text);
+		return true;
+	} catch (e) {}
+
 	var copySuccess;
-	try{
+	try {
 		copySuccess = document.execCommand("copy");
-	} catch(e){
+	} catch (e) {
 		copySuccess = false;
 	}
 	return copySuccess;
