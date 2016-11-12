@@ -11,7 +11,7 @@ $("#generate-form").submit(function () {
 });
 
 $("#copy-button").click(function (e) {
-	copyToClipboard(document.getElementById('password').value);
+	copyToClipboard(getElemId('password').value);
 });
 
 function copyToClipboard(text) {
